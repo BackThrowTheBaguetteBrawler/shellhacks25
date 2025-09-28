@@ -1,1 +1,49 @@
-{ "name": "Transaction", "type": "object", "properties": { "date": { "type": "string", "format": "date-time" }, "description": { "type": "string" }, "amount": { "type": "number" }, "type": { "type": "string", "enum": [ "income", "expense" ] }, "category": { "type": "string", "enum": [ "Salary", "Freelance", "Investment", "Housing", "Utilities", "Groceries", "Transport", "Entertainment", "Health", "Shopping", "Dining Out", "Travel", "Subscriptions", "Other" ] } }, "required": [ "date", "description", "amount", "type", "category" ] }
+{
+  "name": "Transaction",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "income",
+        "expense"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Salary",
+        "Freelance",
+        "Investment",
+        "Housing",
+        "Utilities",
+        "Groceries",
+        "Transport",
+        "Entertainment",
+        "Health",
+        "Shopping",
+        "Dining Out",
+        "Travel",
+        "Subscriptions",
+        "Other"
+      ]
+    }
+  },
+  "required": [
+    "date",
+    "description",
+    "amount",
+    "type",
+    "category"
+  ]
+}
