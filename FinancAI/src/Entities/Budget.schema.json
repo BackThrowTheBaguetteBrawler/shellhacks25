@@ -1,0 +1,37 @@
+{
+  "name": "Budget",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "Housing",
+        "Utilities",
+        "Groceries",
+        "Transport",
+        "Entertainment",
+        "Health",
+        "Shopping",
+        "Dining Out",
+        "Travel",
+        "Subscriptions",
+        "Other"
+      ]
+    },
+    "amount": {
+      "type": "number"
+    },
+    "period": {
+      "type": "string",
+      "enum": [
+        "monthly",
+        "yearly"
+      ],
+      "default": "monthly"
+    }
+  },
+  "required": [
+    "category",
+    "amount"
+  ]
+}
