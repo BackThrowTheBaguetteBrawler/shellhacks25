@@ -1,1 +1,76 @@
-import React, { useEffect } from 'react'; import { useForm, Controller } from 'react-hook-form'; import { Button } from '@/components/ui/button'; import { Input } from '@/components/ui/input'; import { Label } from '@/components/ui/label'; import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'; import { Calendar } from '@/components/ui/calendar'; import { Calendar as CalendarIcon, CheckCircle, XCircle } from 'lucide-react'; import { format } from 'date-fns'; export default function GoalForm({ onSubmit, goal, onCancel }) { const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({ defaultValues: goal || { name: '', targetAmount: '', currentAmount: '', targetDate: new Date().toISOString(), } }); useEffect(() => { if (goal) { Object.keys(goal).forEach(key => setValue(key, goal[key])); } }, [goal, setValue]); return ( <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-white"> <div> <Label htmlFor="name">Goal Name</Label> <Input id="name" {...register('name', { required: true })} className="bg-gray-800 border-gray-600" /> </div> <div className="grid grid-cols-2 gap-4"> <div> <Label htmlFor="targetAmount">Target Amount</Label> <Input id="targetAmount" type="number" step="1" {...register('targetAmount', { required: true, valueAsNumber: true })} className="bg-gray-800 border-gray-600" /> </div> <div> <Label htmlFor="currentAmount">Current Amount</Label> <Input id="currentAmount" type="number" step="1" {...register('currentAmount', { required: true, valueAsNumber: true })} className="bg-gray-800 border-gray-600" /> </div> </div> <div> <Label>Target Date</Label> <Controller name="targetDate" control={control} render={({ field }) => ( <Popover> <PopoverTrigger asChild> <Button variant="outline" className="w-full justify-start font-normal bg-gray-800 border-gray-600 hover:bg-gray-700 hover:text-white"> <CalendarIcon className="mr-2 h-4 w-4" /> {field.value ? format(new Date(field.value), 'PPP') : <span>Pick a date</span>} </Button> </PopoverTrigger> <PopoverContent className="w-auto p-0 bg-gray-900 border-gray-700" align="start"> <Calendar mode="single" selected={new Date(field.value)} onSelect={(date) => field.onChange(date.toISOString())} initialFocus className="text-white"/> </PopoverContent> </Popover> )} /> </div> <div className="flex justify-end gap-4 pt-4"> <Button type="button" variant="ghost" onClick={onCancel} className="hover:bg-gray-700"> <XCircle className="w-5 h-5 mr-2" /> Cancel </Button> <Button type="submit" className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold"> <CheckCircle className="w-5 h-5 mr-2" /> Save Goal </Button> </div> </form> ); }
+import React, { useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Calendar as CalendarIcon, CheckCircle, XCircle } from 'lucide-react';
+import { format } from 'date-fns';
+
+export default function GoalForm({ onSubmit, goal, onCancel }) {
+    const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({
+        defaultValues: goal || {
+            name: '',
+            targetAmount: '',
+            currentAmount: '',
+            targetDate: new Date().toISOString(),
+        }
+    });
+
+    useEffect(() => {
+        if (goal) {
+            Object.keys(goal).forEach(key => setValue(key, goal[key]));
+        }
+    }, [goal, setValue]);
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-white">
+            <div>
+                <Label htmlFor="name">Goal Name</Label>
+                <Input id="name" {...register('name', { required: true })} className="bg-gray-800 border-gray-600" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <Label htmlFor="targetAmount">Target Amount</Label>
+                    <Input id="targetAmount" type="number" step="1" {...register('targetAmount', { required: true, valueAsNumber: true })} className="bg-gray-800 border-gray-600" />
+                </div>
+                <div>
+                    <Label htmlFor="currentAmount">Current Amount</Label>
+                    <Input id="currentAmount" type="number" step="1" {...register('currentAmount', { required: true, valueAsNumber: true })} className="bg-gray-800 border-gray-600" />
+                </div>
+            </div>
+
+            <div>
+                <Label>Target Date</Label>
+                <Controller
+                    name="targetDate"
+                    control={control}
+                    render={({ field }) => (
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button variant="outline" className="w-full justify-start font-normal bg-gray-800 border-gray-600 hover:bg-gray-700 hover:text-white">
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {field.value ? format(new Date(field.value), 'PPP') : <span>Pick a date</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0 bg-gray-900 border-gray-700" align="start">
+                                <Calendar mode="single" selected={new Date(field.value)} onSelect={(date) => field.onChange(date.toISOString())} initialFocus className="text-white"/>
+                            </PopoverContent>
+                        </Popover>
+                    )}
+                />
+            </div>
+
+            <div className="flex justify-end gap-4 pt-4">
+                <Button type="button" variant="ghost" onClick={onCancel} className="hover:bg-gray-700">
+                    <XCircle className="w-5 h-5 mr-2" /> Cancel
+                </Button>
+                <Button type="submit" className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold">
+                    <CheckCircle className="w-5 h-5 mr-2" /> Save Goal
+                </Button>
+            </div>
+        </form>
+    );
+}

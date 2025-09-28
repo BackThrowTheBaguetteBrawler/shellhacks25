@@ -1,1 +1,19 @@
-import React from 'react'; export default function StatCard({ title, value, icon: Icon, color, isCurrency = false }) { const formattedValue = isCurrency ? `${value < 0 ? '-' : ''}$${Math.abs(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : value.toLocaleString('en-US'); return ( <div className="bg-gray-950/30 border border-gray-700/50 rounded-lg p-4 flex items-center gap-4 transition-all hover:bg-gray-800/50 hover:border-gray-600 min-h-[120px]"> <div className={`p-3 rounded-full bg-gray-800 flex-shrink-0`}> <Icon className={`w-6 h-6 ${color}`} /> </div> <div className="flex-1 min-w-0"> <p className="text-gray-400 text-sm font-medium mb-1 truncate">{title}</p> <p className={`text-xl font-bold ${color} break-words leading-tight`}>{formattedValue}</p> </div> </div> ); }
+import React from 'react';
+
+export default function StatCard({ title, value, icon: Icon, color, isCurrency = false }) {
+    const formattedValue = isCurrency 
+        ? `${value < 0 ? '-' : ''}$${Math.abs(value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        : value.toLocaleString('en-US');
+
+    return (
+        <div className="bg-gray-950/30 border border-gray-700/50 rounded-lg p-4 flex items-center gap-4 transition-all hover:bg-gray-800/50 hover:border-gray-600 min-h-[120px]">
+            <div className={`p-3 rounded-full bg-gray-800 flex-shrink-0`}>
+                <Icon className={`w-6 h-6 ${color}`} />
+            </div>
+            <div className="flex-1 min-w-0">
+                <p className="text-gray-400 text-sm font-medium mb-1 truncate">{title}</p>
+                <p className={`text-xl font-bold ${color} break-words leading-tight`}>{formattedValue}</p>
+            </div>
+        </div>
+    );
+}

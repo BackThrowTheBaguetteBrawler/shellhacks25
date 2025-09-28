@@ -1,1 +1,53 @@
-import React from 'react'; import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'; import { format, startOfMonth, parseISO } from 'date-fns'; export default function SummaryChart({ transactions }) { const processData = () => { const monthlyData = {}; transactions.forEach(t => { const month = format(startOfMonth(parseISO(t.date)), 'yyyy-MM'); if (!monthlyData[month]) { monthlyData[month] = { income: 0, expense: 0 }; } if (t.type === 'income') { monthlyData[month].income += t.amount; } else { monthlyData[month].expense += t.amount; } }); return Object.keys(monthlyData) .sort() .map(month => ({ name: format(parseISO(month), 'MMM yy'), Income: monthlyData[month].income, Expense: monthlyData[month].expense })); }; const data = processData(); return ( <div style={{ width: '100%', height: 300 }}> <ResponsiveContainer> <LineChart data={data}> <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" /> <XAxis dataKey="name" stroke="#A0AEC0" /> <YAxis stroke="#A0AEC0" tickFormatter={(value) => `$${value/1000}k`} /> <Tooltip contentStyle={{ backgroundColor: '#1A202C', border: '1px solid #4A5568', color: '#E2E8F0' }} labelStyle={{ color: '#F7B84B' }} /> <Legend wrapperStyle={{ color: '#E2E8F0' }}/> <Line type="monotone" dataKey="Income" stroke="#48BB78" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} /> <Line type="monotone" dataKey="Expense" stroke="#F56565" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} /> </LineChart> </ResponsiveContainer> </div> ); }
+import React from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { format, startOfMonth, parseISO } from 'date-fns';
+
+export default function SummaryChart({ transactions }) {
+    const processData = () => {
+        const monthlyData = {};
+        transactions.forEach(t => {
+            const month = format(startOfMonth(parseISO(t.date)), 'yyyy-MM');
+            if (!monthlyData[month]) {
+                monthlyData[month] = { income: 0, expense: 0 };
+            }
+            if (t.type === 'income') {
+                monthlyData[month].income += t.amount;
+            } else {
+                monthlyData[month].expense += t.amount;
+            }
+        });
+
+        return Object.keys(monthlyData)
+            .sort()
+            .map(month => ({
+                name: format(parseISO(month), 'MMM yy'),
+                Income: monthlyData[month].income,
+                Expense: monthlyData[month].expense
+            }));
+    };
+    
+    const data = processData();
+
+    return (
+        <div style={{ width: '100%', height: 300 }}>
+            <ResponsiveContainer>
+                <LineChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" />
+                    <XAxis dataKey="name" stroke="#A0AEC0" />
+                    <YAxis stroke="#A0AEC0" tickFormatter={(value) => `$${value/1000}k`} />
+                    <Tooltip 
+                        contentStyle={{ 
+                            backgroundColor: '#1A202C', 
+                            border: '1px solid #4A5568', 
+                            color: '#E2E8F0' 
+                        }}
+                        labelStyle={{ color: '#F7B84B' }}
+                    />
+                    <Legend wrapperStyle={{ color: '#E2E8F0' }}/>
+                    <Line type="monotone" dataKey="Income" stroke="#48BB78" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                    <Line type="monotone" dataKey="Expense" stroke="#F56565" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    );
+}

@@ -1,1 +1,86 @@
-import React, { useEffect } from 'react'; import { useForm, Controller } from 'react-hook-form'; import { Button } from '@/components/ui/button'; import { Input } from '@/components/ui/input'; import { Label } from '@/components/ui/label'; import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'; import { CheckCircle, XCircle } from 'lucide-react'; const expenseCategories = ["Housing", "Utilities", "Groceries", "Transport", "Entertainment", "Health", "Shopping", "Dining Out", "Travel", "Subscriptions", "Other"]; export default function BudgetForm({ onSubmit, budget, onCancel }) { const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({ defaultValues: budget || { category: '', amount: '', period: 'monthly' } }); useEffect(() => { if (budget) { Object.keys(budget).forEach(key => setValue(key, budget[key])); } }, [budget, setValue]); return ( <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-white"> <div> <Label htmlFor="category">Category</Label> <Controller name="category" control={control} rules={{ required: true }} render={({ field }) => ( <Select onValueChange={field.onChange} value={field.value}> <SelectTrigger className="bg-gray-800 border-gray-600"> <SelectValue placeholder="Select category" /> </SelectTrigger> <SelectContent className="bg-gray-800 border-gray-600 text-white"> {expenseCategories.map(cat => ( <SelectItem key={cat} value={cat} className="cursor-pointer hover:!bg-gray-700">{cat}</SelectItem> ))} </SelectContent> </Select> )} /> </div> <div className="grid grid-cols-2 gap-4"> <div> <Label htmlFor="amount">Budget Amount</Label> <Input id="amount" type="number" step="0.01" {...register('amount', { required: true, valueAsNumber: true })} className="bg-gray-800 border-gray-600" /> </div> <div> <Label htmlFor="period">Period</Label> <Controller name="period" control={control} render={({ field }) => ( <Select onValueChange={field.onChange} value={field.value}> <SelectTrigger className="bg-gray-800 border-gray-600"> <SelectValue placeholder="Period" /> </SelectTrigger> <SelectContent className="bg-gray-800 border-gray-600 text-white"> <SelectItem value="monthly" className="cursor-pointer hover:!bg-gray-700">Monthly</SelectItem> <SelectItem value="yearly" className="cursor-pointer hover:!bg-gray-700">Yearly</SelectItem> </SelectContent> </Select> )} /> </div> </div> <div className="flex justify-end gap-4 pt-4"> <Button type="button" variant="ghost" onClick={onCancel} className="hover:bg-gray-700"> <XCircle className="w-5 h-5 mr-2" /> Cancel </Button> <Button type="submit" className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold"> <CheckCircle className="w-5 h-5 mr-2" /> Save Budget </Button> </div> </form> ); }
+import React, { useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { CheckCircle, XCircle } from 'lucide-react';
+
+const expenseCategories = ["Housing", "Utilities", "Groceries", "Transport", "Entertainment", "Health", "Shopping", "Dining Out", "Travel", "Subscriptions", "Other"];
+
+export default function BudgetForm({ onSubmit, budget, onCancel }) {
+    const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({
+        defaultValues: budget || {
+            category: '',
+            amount: '',
+            period: 'monthly'
+        }
+    });
+
+    useEffect(() => {
+        if (budget) {
+            Object.keys(budget).forEach(key => setValue(key, budget[key]));
+        }
+    }, [budget, setValue]);
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-white">
+            <div>
+                <Label htmlFor="category">Category</Label>
+                <Controller
+                    name="category"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                        <Select onValueChange={field.onChange} value={field.value}>
+                            <SelectTrigger className="bg-gray-800 border-gray-600">
+                                <SelectValue placeholder="Select category" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-gray-800 border-gray-600 text-white">
+                                {expenseCategories.map(cat => (
+                                    <SelectItem key={cat} value={cat} className="cursor-pointer hover:!bg-gray-700">{cat}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
+                />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <Label htmlFor="amount">Budget Amount</Label>
+                    <Input id="amount" type="number" step="0.01" {...register('amount', { required: true, valueAsNumber: true })} className="bg-gray-800 border-gray-600" />
+                </div>
+                <div>
+                    <Label htmlFor="period">Period</Label>
+                    <Controller
+                        name="period"
+                        control={control}
+                        render={({ field }) => (
+                            <Select onValueChange={field.onChange} value={field.value}>
+                                <SelectTrigger className="bg-gray-800 border-gray-600">
+                                    <SelectValue placeholder="Period" />
+                                </SelectTrigger>
+                                <SelectContent className="bg-gray-800 border-gray-600 text-white">
+                                    <SelectItem value="monthly" className="cursor-pointer hover:!bg-gray-700">Monthly</SelectItem>
+                                    <SelectItem value="yearly" className="cursor-pointer hover:!bg-gray-700">Yearly</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        )}
+                    />
+                </div>
+            </div>
+
+            <div className="flex justify-end gap-4 pt-4">
+                <Button type="button" variant="ghost" onClick={onCancel} className="hover:bg-gray-700">
+                    <XCircle className="w-5 h-5 mr-2" />
+                    Cancel
+                </Button>
+                <Button type="submit" className="bg-amber-400 hover:bg-amber-500 text-gray-900 font-bold">
+                    <CheckCircle className="w-5 h-5 mr-2" />
+                    Save Budget
+                </Button>
+            </div>
+        </form>
+    );
+}

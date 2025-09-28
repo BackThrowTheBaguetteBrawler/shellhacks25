@@ -1,1 +1,19 @@
-import React from 'react'; import GoalItem from '../goals/GoalItem'; export default function GoalsOverview({ goals }) { return ( <div className="bg-gray-950/30 rounded-lg border border-gray-700/50 p-6"> <h3 className="text-xl font-semibold text-white mb-4">Financial Goals Progress</h3> {goals.length > 0 ? ( <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"> {goals.map(goal => ( <GoalItem key={goal.id} goal={goal} isCompact /> ))} </div> ) : ( <p className="text-gray-400 text-center py-8">You haven't set any financial goals yet.</p> )} </div> ); }
+import React from 'react';
+import GoalItem from '../goals/GoalItem';
+
+export default function GoalsOverview({ goals }) {
+    return (
+        <div className="bg-gray-950/30 rounded-lg border border-gray-700/50 p-6">
+            <h3 className="text-xl font-semibold text-white mb-4">Financial Goals Progress</h3>
+            {goals.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {goals.map(goal => (
+                        <GoalItem key={goal.id} goal={goal} isCompact />
+                    ))}
+                </div>
+            ) : (
+                <p className="text-gray-400 text-center py-8">You haven't set any financial goals yet.</p>
+            )}
+        </div>
+    );
+}
