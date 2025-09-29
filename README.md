@@ -1,1 +1,1 @@
-# shellhacks25
+# FinancAI originally for shellhacks25
